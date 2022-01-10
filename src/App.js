@@ -18,6 +18,7 @@ class App extends Component {
 	state = {
 		users: [],
 		user: {},
+		repos: [],
 		loading: false,
 		alert: null,
 	}
@@ -34,7 +35,8 @@ class App extends Component {
 			github.get(`/users/${username}?`),
 			github.get(`/users/${username}/repos?per_page=5&sort=created:asc?`),
 		])
-		this.setState({ user: user.data, repos: repos, loading: false })
+		console.log(repos)
+		this.setState({ user: user.data, repos: repos.data, loading: false })
 	}
 
 	clearUsers = () => this.setState({ users: [], loading: false })
@@ -47,7 +49,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { users, user, loading } = this.state
+		const { users, user, repos, loading } = this.state
 		return (
 			<Router>
 				<div className="App">
@@ -73,7 +75,12 @@ class App extends Component {
 							<Route
 								path="user/:login"
 								element={
-									<User getUser={this.getUser} user={user} loading={loading} />
+									<User
+										getUser={this.getUser}
+										repos={repos}
+										user={user}
+										loading={loading}
+									/>
 								}
 							/>
 						</Routes>

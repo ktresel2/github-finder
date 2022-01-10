@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import Spinner from './../layout/Spinner'
 import PropTypes from 'prop-types'
 
-function User({ user, loading, getUser }) {
+function User({ user, loading, getUser, repos }) {
 	const params = useParams()
 	const {
 		name,
@@ -23,6 +23,7 @@ function User({ user, loading, getUser }) {
 
 	useEffect(() => {
 		getUser(params.login)
+		console.log(repos)
 	}, [])
 
 	return loading ? (
@@ -89,6 +90,13 @@ function User({ user, loading, getUser }) {
 				<div className="badge badge-success">Following: {following}</div>
 				<div className="badge badge-light">Public Repos: {public_repos}</div>
 				<div className="badge badge-dark">Public Gists: {public_gists}</div>
+			</div>
+			<div>
+				<ul>
+					{repos.map(repo => (
+						<li>{repo.name}</li>
+					))}
+				</ul>
 			</div>
 		</Fragment>
 	)

@@ -35,7 +35,6 @@ class App extends Component {
 			github.get(`/users/${username}?`),
 			github.get(`/users/${username}/repos?per_page=5&sort=created:asc?`),
 		])
-		console.log(repos)
 		this.setState({ user: user.data, repos: repos.data, loading: false })
 	}
 

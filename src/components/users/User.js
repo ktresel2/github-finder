@@ -2,6 +2,7 @@ import React, { useEffect, Fragment } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Spinner from './../layout/Spinner'
 import PropTypes from 'prop-types'
+import Repos from './../repos/Repos'
 
 function User({ user, loading, getUser, repos }) {
 	const params = useParams()
@@ -92,11 +93,7 @@ function User({ user, loading, getUser, repos }) {
 				<div className="badge badge-dark">Public Gists: {public_gists}</div>
 			</div>
 			<div>
-				<ul>
-					{repos.map(repo => (
-						<li>{repo.name}</li>
-					))}
-				</ul>
+				<Repos repos={repos} />
 			</div>
 		</Fragment>
 	)
@@ -105,7 +102,9 @@ function User({ user, loading, getUser, repos }) {
 User.propTypes = {
 	loading: PropTypes.bool,
 	user: PropTypes.object.isRequired,
+	repos: PropTypes.array.isRequired,
 	getUser: PropTypes.func.isRequired,
+	getUserRepos: PropTypes.func.isRequired,
 }
 
 export default User

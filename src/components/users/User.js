@@ -4,7 +4,7 @@ import Spinner from './../layout/Spinner'
 import PropTypes from 'prop-types'
 import Repos from './../repos/Repos'
 
-function User({ user, loading, getUser, repos }) {
+const User = ({ user, loading, getUser, repos }) => {
 	const params = useParams()
 	const {
 		name,
@@ -24,7 +24,7 @@ function User({ user, loading, getUser, repos }) {
 
 	useEffect(() => {
 		getUser(params.login)
-		console.log(repos)
+		console.log(user)
 	}, [])
 
 	return loading ? (
@@ -104,7 +104,6 @@ User.propTypes = {
 	user: PropTypes.object.isRequired,
 	repos: PropTypes.array.isRequired,
 	getUser: PropTypes.func.isRequired,
-	getUserRepos: PropTypes.func.isRequired,
 }
 
 export default User

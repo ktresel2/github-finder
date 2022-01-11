@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users'
@@ -14,80 +14,79 @@ const github = axios.create({
 	headers: { Authorization: process.env.REACT_APP_GITHUB_TOKEN },
 })
 
-class App extends Component {
-	state = {
-		users: [],
-		user: {},
-		repos: [],
-		loading: false,
-		alert: null,
+const App = () => {
+	const [users, setUsers] = useState([])
+	const [user, setUser] = useState({})
+	const [repos, setRepos] = useState([])
+	const [loading, setLoading] = useState(false)
+	const [alert, setAlert] = useState(null)
+
+	const searchUsers = async text => {
+		setLoading(true)
+		await github
+			.get(`/search/users?q=${text}`)
+			.then(res => setUsers(res.data.items))
+			.then(setLoading(false))
 	}
 
-	searchUsers = async text => {
-		this.setState({ loading: true })
-		const res = await github.get(`/search/users?q=${text}`)
-		this.setState({ users: res.data.items, loading: false })
-	}
-
-	getUser = async username => {
-		this.setState({ loading: true })
-		const [user, repos] = await Promise.all([
+	const getUser = async username => {
+		setLoading(true)
+		const [thisUser, theseRepos] = await Promise.all([
 			github.get(`/users/${username}?`),
 			github.get(`/users/${username}/repos?per_page=5&sort=created:asc?`),
 		])
-		this.setState({ user: user.data, repos: repos.data, loading: false })
+			.then(setUser(thisUser))
+			.then(setRepos(theseRepos))
+			.then(setLoading(false))
 	}
 
-	clearUsers = () => this.setState({ users: [], loading: false })
+	const clearUsers = () => setUsers([]).then(setLoading(false))
 
-	setAlert = (msg, type) => {
-		this.setState({ alert: { msg, type } })
+	const createAlert = (msg, type) => {
+		this.setAlert({ msg, type })
 		setTimeout(() => {
-			this.setState({ alert: null })
+			setAlert(null)
 		}, 3000)
 	}
 
-	render() {
-		const { users, user, repos, loading } = this.state
-		return (
-			<Router>
-				<div className="App">
-					<Navbar />
-					<div className="container">
-						<Alert alert={this.state.alert} />
-						<Routes>
-							<Route
-								path="/"
-								element={
-									<Fragment>
-										<Search
-											searchUsers={this.searchUsers}
-											clearUsers={this.clearUsers}
-											showClear={users.length > 0 ? true : false}
-											setAlert={this.setAlert}
-										/>
-										<Users loading={loading} users={users} />
-									</Fragment>
-								}
-							/>
-							<Route exact path="/about" element={<About />} />
-							<Route
-								path="user/:login"
-								element={
-									<User
-										getUser={this.getUser}
-										repos={repos}
-										user={user}
-										loading={loading}
+	return (
+		<Router>
+			<div className="App">
+				<Navbar />
+				<div className="container">
+					<Alert alert={alert} />
+					<Routes>
+						<Route
+							path="/"
+							element={
+								<Fragment>
+									<Search
+										searchUsers={searchUsers}
+										clearUsers={clearUsers}
+										showClear={users.length > 0 ? true : false}
+										setAlert={createAlert}
 									/>
-								}
-							/>
-						</Routes>
-					</div>
+									<Users loading={loading} users={users} />
+								</Fragment>
+							}
+						/>
+						<Route exact path="/about" element={<About />} />
+						<Route
+							path="user/:login"
+							element={
+								<User
+									getUser={getUser}
+									repos={repos}
+									user={user}
+									loading={loading}
+								/>
+							}
+						/>
+					</Routes>
 				</div>
-			</Router>
-		)
-	}
+			</div>
+		</Router>
+	)
 }
 
 export default App

@@ -13,7 +13,7 @@ export const RepoItem = repo => {
 }
 
 RepoItem.propTypes = {
-	repos: PropTypes.object.isRequired,
+	repo: PropTypes.object.isRequired,
 }
 
 export default RepoItem

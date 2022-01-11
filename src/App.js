@@ -35,9 +35,9 @@ const App = () => {
 			github.get(`/users/${username}?`),
 			github.get(`/users/${username}/repos?per_page=5&sort=created:asc?`),
 		])
-			.then(setUser(thisUser))
-			.then(setRepos(theseRepos))
-			.then(setLoading(false))
+		setUser(thisUser.data)
+		setRepos(theseRepos.data)
+		setLoading(false)
 	}
 
 	const clearUsers = () => setUsers([]).then(setLoading(false))

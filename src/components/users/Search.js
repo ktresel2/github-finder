@@ -12,7 +12,8 @@ export const Search = ({ setAlert, clearUsers, showClear }) => {
 		e.preventDefault()
 		!text
 			? setAlert('Please enter something', 'light')
-			: githubContext.searchUsers(text).then(setText(''))
+			: githubContext.searchUsers(text)
+		setText('')
 	}
 
 	return (

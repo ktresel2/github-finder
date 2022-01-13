@@ -41,14 +41,14 @@ const App = () => {
 	// 	setLoading(false)
 	// }
 
-	const clearUsers = () => setUsers([]).then(setLoading(false))
+	// const clearUsers = () => setUsers([]).then(setLoading(false))
 
-	const createAlert = (msg, type) => {
-		this.setAlert({ msg, type })
-		setTimeout(() => {
-			setAlert(null)
-		}, 3000)
-	}
+	// const createAlert = (msg, type) => {
+	// 	setAlert({ msg, type })
+	// 	setTimeout(() => {
+	// 		setAlert(null)
+	// 	}, 3000)
+	// }
 
 	return (
 		<GithubState>
@@ -62,12 +62,8 @@ const App = () => {
 								path="/"
 								element={
 									<Fragment>
-										<Search
-											clearUsers={clearUsers}
-											showClear={users.length > 0 ? true : false}
-											setAlert={createAlert}
-										/>
-										<Users loading={loading} users={users} />
+										<Search showClear={users.length > 0 ? true : false} />
+										<Users />
 									</Fragment>
 								}
 							/>

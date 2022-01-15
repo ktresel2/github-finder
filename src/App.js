@@ -1,10 +1,10 @@
 import React, { useState, Fragment } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
 import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users'
 import User from './components/users/User'
 import Search from './components/users/Search'
-import axios from 'axios'
 import Alert from './components/layout/Alert'
 import GithubState from './context/github/GithubState'
 import './App.css'
@@ -16,7 +16,6 @@ import About from './components/pages/About'
 // })
 
 const App = () => {
-	const [users, setUsers] = useState([])
 	const [user, setUser] = useState({})
 	const [repos, setRepos] = useState([])
 	const [loading, setLoading] = useState(false)
@@ -43,12 +42,12 @@ const App = () => {
 
 	// const clearUsers = () => setUsers([]).then(setLoading(false))
 
-	// const createAlert = (msg, type) => {
-	// 	setAlert({ msg, type })
-	// 	setTimeout(() => {
-	// 		setAlert(null)
-	// 	}, 3000)
-	// }
+	const showAlert = (msg, type) => {
+		setAlert({ msg, type })
+		setTimeout(() => {
+			setAlert(null)
+		}, 3000)
+	}
 
 	return (
 		<GithubState>
@@ -62,7 +61,7 @@ const App = () => {
 								path="/"
 								element={
 									<Fragment>
-										<Search showClear={users.length > 0 ? true : false} />
+										<Search setAlert={showAlert} />
 										<Users />
 									</Fragment>
 								}

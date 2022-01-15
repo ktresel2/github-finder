@@ -28,7 +28,6 @@ const GithubState = props => {
 	const searchUsers = async text => {
 		setLoading(true)
 		const res = await github.get(`/search/users?q=${text}`)
-		// .then(res => setUsers(res.data.items))
 		console.log(res)
 		dispatch({
 			type: SEARCH_USERS,
@@ -57,8 +56,8 @@ const GithubState = props => {
 			type: CLEAR_USERS,
 		})
 
-	// const createAlert = (msg, type) => {
-	// 	this.setAlert({ msg, type })
+	// const showAlert = (msg, type) => {
+	// 	setAlert({ msg, type })
 	// 	setTimeout(() => {
 	// 		setAlert(null)
 	// 	}, 3000)
@@ -73,6 +72,8 @@ const GithubState = props => {
 				user: state.user,
 				loading: state.loading,
 				searchUsers,
+				clearUsers,
+				getUser,
 			}}
 		>
 			{props.children}

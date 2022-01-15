@@ -28,27 +28,24 @@ const GithubState = props => {
 	const searchUsers = async text => {
 		setLoading(true)
 		const res = await github.get(`/search/users?q=${text}`)
-		console.log(res)
+		// console.log(res)
 		dispatch({
 			type: SEARCH_USERS,
 			payload: res.data.items,
 		})
 	}
 
-	const getUser = async username => {
-		setLoading(true)
+	const getUserAndRepos = async username => {
+		setLoading()
 		const [thisUser, theseRepos] = await Promise.all([
 			github.get(`/users/${username}?`),
 			github.get(`/users/${username}/repos?per_page=5&sort=created:asc?`),
 		])
 		dispatch({
 			type: GET_USER_AND_REPOS,
-			user: thisUser,
-			repos: theseRepos,
+			user: thisUser.data,
+			repos: theseRepos.data,
 		})
-		// setUser(thisUser.data)
-		// setRepos(theseRepos.data)
-		// setLoading(false)
 	}
 
 	const clearUsers = () =>
@@ -73,7 +70,7 @@ const GithubState = props => {
 				loading: state.loading,
 				searchUsers,
 				clearUsers,
-				getUser,
+				getUserAndRepos,
 			}}
 		>
 			{props.children}

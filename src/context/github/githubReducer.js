@@ -2,8 +2,7 @@ import {
 	SEARCH_USERS,
 	SET_LOADING,
 	CLEAR_USERS,
-	GET_USER,
-	GET_REPOS,
+	GET_USER_AND_REPOS,
 } from '../types'
 
 export const githubReducer = (state, action) => {
@@ -12,6 +11,13 @@ export const githubReducer = (state, action) => {
 			return {
 				...state,
 				users: action.payload,
+				loading: false,
+			}
+		case GET_USER_AND_REPOS:
+			return {
+				...state,
+				user: action.payload.user,
+				repos: action.payload.repos,
 				loading: false,
 			}
 		case CLEAR_USERS:

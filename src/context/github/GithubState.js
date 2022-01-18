@@ -28,7 +28,7 @@ const GithubState = props => {
 	const searchUsers = async text => {
 		setLoading(true)
 		const res = await github.get(`/search/users?q=${text}`)
-		// console.log(res)
+		console.log(res)
 		dispatch({
 			type: SEARCH_USERS,
 			payload: res.data.items,

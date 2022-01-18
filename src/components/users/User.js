@@ -1,13 +1,12 @@
 import React, { useEffect, Fragment, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Spinner from './../layout/Spinner'
-import PropTypes from 'prop-types'
 import Repos from './../repos/Repos'
 import GithubContext from './../../context/github/githubContext'
 
-const User = ({ repos }) => {
+const User = () => {
 	const githubContext = useContext(GithubContext)
-	const { getUser, loading, user } = githubContext
+	const { getUserAndRepos, loading, user, repos } = githubContext
 	const params = useParams()
 	const {
 		name,
@@ -26,7 +25,7 @@ const User = ({ repos }) => {
 	} = user
 
 	useEffect(() => {
-		getUser(params.login)
+		getUserAndRepos(params.login)
 	}, [])
 
 	return loading ? (
@@ -99,10 +98,6 @@ const User = ({ repos }) => {
 			</div>
 		</Fragment>
 	)
-}
-
-User.propTypes = {
-	repos: PropTypes.array.isRequired,
 }
 
 export default User

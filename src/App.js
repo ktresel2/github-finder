@@ -7,6 +7,7 @@ import User from './components/users/User'
 import Search from './components/users/Search'
 import Alert from './components/layout/Alert'
 import GithubState from './context/github/GithubState'
+import AlertState from './context/alert/AlertState'
 import './App.css'
 import About from './components/pages/About'
 
@@ -16,68 +17,32 @@ import About from './components/pages/About'
 // })
 
 const App = () => {
-	const [repos, setRepos] = useState([])
-	const [alert, setAlert] = useState(null)
-
-	// const searchUsers = async text => {
-	// 	setLoading(true)
-	// 	await github
-	// 		.get(`/search/users?q=${text}`)
-	// 		.then(res => setUsers(res.data.items))
-	// 		.then(setLoading(false))
-	// }
-
-	// const getUser = async username => {
-	// 	setLoading(true)
-	// 	const [thisUser, theseRepos] = await Promise.all([
-	// 		github.get(`/users/${username}?`),
-	// 		github.get(`/users/${username}/repos?per_page=5&sort=created:asc?`),
-	// 	])
-	// 	setUser(thisUser.data)
-	// 	setRepos(theseRepos.data)
-	// 	setLoading(false)
-	// }
-
-	// const clearUsers = () => setUsers([]).then(setLoading(false))
-
-	const showAlert = (msg, type) => {
-		setAlert({ msg, type })
-		setTimeout(() => {
-			setAlert(null)
-		}, 3000)
-	}
-
 	return (
 		<GithubState>
-			<Router>
-				<div className="App">
-					<Navbar />
-					<div className="container">
-						<Alert alert={alert} />
-						<Routes>
-							<Route
-								path="/"
-								element={
-									<Fragment>
-										<Search setAlert={showAlert} />
-										<Users />
-									</Fragment>
-								}
-							/>
-							<Route exact path="/about" element={<About />} />
-							<Route
-								path="user/:login"
-								element={
-									<User
-										// getUser={getUser}
-										repos={repos}
-									/>
-								}
-							/>
-						</Routes>
+			<AlertState>
+				<Router>
+					<div className="App">
+						<Navbar />
+						<div className="container">
+							<Alert />
+							<Routes>
+								<Route
+									exact
+									path="/"
+									element={
+										<Fragment>
+											<Search />
+											<Users />
+										</Fragment>
+									}
+								/>
+								<Route exact path="/about" element={<About />} />
+								<Route path="user/:login" element={<User />} />
+							</Routes>
+						</div>
 					</div>
-				</div>
-			</Router>
+				</Router>
+			</AlertState>
 		</GithubState>
 	)
 }

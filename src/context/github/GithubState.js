@@ -35,11 +35,11 @@ const GithubState = props => {
 		})
 	}
 
-	const getUserAndRepos = async username => {
+	const getUserAndRepos = async login => {
 		setLoading()
 		const [thisUser, theseRepos] = await Promise.all([
-			github.get(`/users/${username}?`),
-			github.get(`/users/${username}/repos?per_page=5&sort=created:asc?`),
+			github.get(`/users/${login}?`),
+			github.get(`/users/${login}/repos?per_page=5&sort=created:asc?`),
 		])
 		dispatch({
 			type: GET_USER_AND_REPOS,

@@ -7,7 +7,6 @@ import {
 	SET_LOADING,
 	CLEAR_USERS,
 	GET_USER_AND_REPOS,
-	GET_REPOS,
 } from '../types'
 
 const github = axios.create({
@@ -28,7 +27,7 @@ const GithubState = props => {
 	const searchUsers = async text => {
 		setLoading(true)
 		const res = await github.get(`/search/users?q=${text}`)
-		console.log(res)
+		console.log(res.data.items)
 		dispatch({
 			type: SEARCH_USERS,
 			payload: res.data.items,
@@ -46,6 +45,7 @@ const GithubState = props => {
 			user: thisUser.data,
 			repos: theseRepos.data,
 		})
+		console.log(thisUser, theseRepos)
 	}
 
 	const clearUsers = () =>
@@ -68,6 +68,7 @@ const GithubState = props => {
 				users: state.users,
 				user: state.user,
 				loading: state.loading,
+				repos: state.repos,
 				searchUsers,
 				clearUsers,
 				getUserAndRepos,

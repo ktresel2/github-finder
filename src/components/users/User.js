@@ -28,6 +28,8 @@ const User = () => {
 		getUserAndRepos(params.login)
 	}, [])
 
+	console.log(user)
+
 	return loading ? (
 		<Spinner />
 	) : (

@@ -16,8 +16,8 @@ export const githubReducer = (state, action) => {
 		case GET_USER_AND_REPOS:
 			return {
 				...state,
-				user: action.payload.user,
-				repos: action.payload.repos,
+				user: action.user,
+				repos: action.repos,
 				loading: false,
 			}
 		case CLEAR_USERS:

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Navbar from './components/layout/Navbar'
@@ -21,10 +21,10 @@ const App = () => {
 						<div className="container">
 							<Alert />
 							<Routes>
-								<Route exact path="/" element={<Home />} />
-								<Route exact path="/about" element={<About />} />
+								<Route path="/" element={<Home />} />
+								<Route path="/about" element={<About />} />
 								<Route path="user/:login" element={<User />} />
-								<Route element={NotFound} />
+								<Route path="*" element={NotFound} />
 							</Routes>
 						</div>
 					</div>
